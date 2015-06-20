@@ -1,4 +1,4 @@
-Source: openmediavault-mediabrowser
+Source: openmediavault-emby
 Section: net
 XB-Plugin-Section: multimedia
 Priority: optional
@@ -6,10 +6,10 @@ Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
 Build-Depends: debhelper (>= 9.0.0 )
 Standards-Version: 3.9.3
 
-Package: openmediavault-mediabrowser
+Package: openmediavault-emby
 Architecture: all
 Depends: openmediavault (>= 1.0.21), ${misc:Depends}, libmono-cil-dev (>= 3.10), cli-common-dev (>= 0.7), libsqlite3-dev (>= 3.7.2), libgdiplus (>= 3.8), unzip
-Description: Media Browser Server plugin for OpenMediaVault.
- Media Browser Server is a home media server built on top of
+Description: Emby plugin for OpenMediaVault.
+ Emby is a home media server built on top of
  other popular open source technologies such as Service Stack,
  jQuery, jQuery mobile, and Mono.
