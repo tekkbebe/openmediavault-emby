@@ -18,10 +18,10 @@
 // require("js/omv/WorkspaceManager.js")
 // require("js/omv/workspace/form/Panel.js")
 
-Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
+Ext.define("OMV.module.admin.service.emby.Settings", {
     extend : "OMV.workspace.form.Panel",
 
-    rpcService   : "MediaBrowser",
+    rpcService   : "Emby",
     rpcGetMethod : "getSettings",
     rpcSetMethod : "setSettings",
 
@@ -79,7 +79,7 @@ Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
                     },
                     relayErrors : false,
                     rpcData     : {
-                        service  : "MediaBrowser",
+                        service  : "Emby",
                         method   : "doRestart"
                     }
                 });
@@ -87,13 +87,13 @@ Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
         },{
             id       : me.getId() + "-webclient",
             xtype    : "button",
-			text    : _("Media Browser Web Client"),
-            icon     : "images/mediabrowser.png",
+			text    : _("Emby Web Client"),
+            icon     : "images/emby.png",
             iconCls  : Ext.baseCSSPrefix + "btn-icon-16x16",
             disabled : true,
             scope    : me,
             handler  : function() {
-				var link = 'http://' + location.hostname + ':8096/mediabrowser';
+				var link = 'http://' + location.hostname + ':8096/emby';
 				window.open(link, '_blank');
             }
         });
@@ -177,7 +177,7 @@ Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
     onUpdate : function() {
         Ext.create("OMV.window.Execute", {
             title          : _("Click start to force update..."),
-            rpcService     : "MediaBrowser",
+            rpcService     : "Emby",
             rpcMethod      : "doUpdate",
             hideStopButton : true,
             listeners      : {
@@ -189,8 +189,8 @@ Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
 
 OMV.WorkspaceManager.registerPanel({
     id        : "settings",
-    path      : "/service/mediabrowser",
+    path      : "/service/emby",
     text      : _("Settings"),
     position  : 10,
-    className : "OMV.module.admin.service.mediabrowser.Settings"
+    className : "OMV.module.admin.service.emby.Settings"
 });
