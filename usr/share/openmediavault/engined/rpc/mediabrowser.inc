@@ -28,7 +28,7 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
 
     public function getName()
     {
-        return "MediaBrowser";
+        return "Emby";
     }
 
     private function getPluginName()
@@ -238,4 +238,4 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
 
 // Register the RPC service.
 $rpcServiceMgr = &OMVRpcServiceMgr::getInstance();
-$rpcServiceMgr->registerService(new OMVRpcServiceMediaBrowser());
+$rpcServiceMgr->registerService(new OMVRpcServiceEmby());
