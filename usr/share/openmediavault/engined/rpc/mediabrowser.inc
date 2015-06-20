@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 OpenMediaVault Plugin Developers
+ * Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -202,38 +202,38 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
         $initd->invoke("restart");
     }
 
-    	public function doUpdate($params, $context)
+    public function doUpdate($params, $context)
+    {
+	// Validate the RPC caller context.
+	$this->validateMethodContext(
+		$context,
+		array( "role" => OMV_ROLE_ADMINISTRATOR )
+	);
+
+	// Create a background process.
+	$bgStatusFilename = $this->createBgProcStatus();
+	$pid = $this->fork();
+	if ($pid > 0)   // Parent process.
 	{
-		// Validate the RPC caller context.
-		$this->validateMethodContext(
-			$context,
-			array( "role" => OMV_ROLE_ADMINISTRATOR )
-		);
-
-		// Create a background process.
-		$bgStatusFilename = $this->createBgProcStatus();
-		$pid = $this->fork();
-		if ($pid > 0)   // Parent process.
-		{
-			$this->initializeBgProcStatus($bgStatusFilename, $pid);
-			return $bgStatusFilename;
-		}
-	
-		// Child process.
-		try {
-			$bgOutputFilename = $this->createBgProcOutput();
-			$this->updateBgProcStatus($bgStatusFilename, "outputfilename", $bgOutputFilename);
-
-			$cmd = sprintf("omv-mkconf %s update 2>&1", $this->getPluginName() );
-			$this->exec($cmd, $output, $bgOutputFilename);
-			$this->finalizeBgProcStatus($bgStatusFilename, $output);
-
-		} catch(Exception $e) {
-			$this->finalizeBgProcStatus($bgStatusFilename, "", $e);
-			exit(1);
-		}
-
+		$this->initializeBgProcStatus($bgStatusFilename, $pid);
+		return $bgStatusFilename;
 	}
+	
+	// Child process.
+	try {
+		$bgOutputFilename = $this->createBgProcOutput();
+		$this->updateBgProcStatus($bgStatusFilename, "outputfilename", $bgOutputFilename);
+
+		$cmd = sprintf("omv-mkconf %s update 2>&1", $this->getPluginName() );
+		$this->exec($cmd, $output, $bgOutputFilename);
+		$this->finalizeBgProcStatus($bgStatusFilename, $output);
+
+	} catch(Exception $e) {
+		$this->finalizeBgProcStatus($bgStatusFilename, "", $e);
+		exit(1);
+	}
+
+    }
 }
 
 // Register the RPC service.
