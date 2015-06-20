@@ -21,12 +21,12 @@
 // require("js/omv/WorkspaceManager.js")
 // require("js/omv/workspace/panel/Panel.js")
 
-Ext.define("OMV.module.admin.service.mediabrowser.WebClient", {
+Ext.define("OMV.module.admin.service.emby.WebClient", {
     extend : "OMV.workspace.panel.Panel",
 
     initComponent : function() {
         var me = this;
-        var link = 'http://' + location.hostname + ':8096/mediabrowser';
+        var link = 'http://' + location.hostname + ':8096/emby';
 
         me.html = "<iframe src='" + link + "' width='100%' height='100%' />";
         me.callParent(arguments);
@@ -35,8 +35,8 @@ Ext.define("OMV.module.admin.service.mediabrowser.WebClient", {
 
 OMV.WorkspaceManager.registerPanel({
     id        : "webclient",
-    path      : "/service/mediabrowser",
+    path      : "/service/emby",
     text      : _("Web Client"),
     position  : 20,
-    className : "OMV.module.admin.service.mediabrowser.WebClient"
+    className : "OMV.module.admin.service.emby.WebClient"
 });
