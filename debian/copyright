@@ -1,12 +1,12 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: openmediavault-emby
+Upstream-Name: openmediavault-mediabrowser
 
 Files: *
-Copyright: 2014-2015 OpenMediaVault Plugin Developers <plugins@omv-extras.org>
+Copyright: 2014 OpenMediaVault Plugin Developers <plugins@omv-extras.org>
 License: GPL-3+
 
-Files: var/www/openmediavault/images/emby.png
-       var/www/openmediavault/images/emby.svg
+Files: var/www/openmediavault/images/mediabrowser.png
+       var/www/openmediavault/images/mediabrowser.svg
 Copyright: IcoMoon <http://www.icomoon.io>
 IcoMoon <http://www.icomoon.io>
 License: CC BY 3.0

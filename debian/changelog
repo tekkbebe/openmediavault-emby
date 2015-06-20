@@ -1,1 +1,5 @@
+openmediavault-mediabrowser (1.20.0) stable; urgency=low
 
+  * Initial release
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sat, 17 Jan 2015 13:09:50 -0500

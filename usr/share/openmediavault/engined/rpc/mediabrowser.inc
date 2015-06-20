@@ -28,7 +28,7 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
 
     public function getName()
     {
-        return "Emby";
+        return "MediaBrowser";
     }
 
     private function getPluginName()
@@ -202,40 +202,40 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
         $initd->invoke("restart");
     }
 
-    public function doUpdate($params, $context)
-    {
-	// Validate the RPC caller context.
-	$this->validateMethodContext(
-		$context,
-		array( "role" => OMV_ROLE_ADMINISTRATOR )
-	);
-
-	// Create a background process.
-	$bgStatusFilename = $this->createBgProcStatus();
-	$pid = $this->fork();
-	if ($pid > 0)   // Parent process.
+    	public function doUpdate($params, $context)
 	{
-		$this->initializeBgProcStatus($bgStatusFilename, $pid);
-		return $bgStatusFilename;
-	}
+		// Validate the RPC caller context.
+		$this->validateMethodContext(
+			$context,
+			array( "role" => OMV_ROLE_ADMINISTRATOR )
+		);
+
+		// Create a background process.
+		$bgStatusFilename = $this->createBgProcStatus();
+		$pid = $this->fork();
+		if ($pid > 0)   // Parent process.
+		{
+			$this->initializeBgProcStatus($bgStatusFilename, $pid);
+			return $bgStatusFilename;
+		}
 	
-	// Child process.
-	try {
-		$bgOutputFilename = $this->createBgProcOutput();
-		$this->updateBgProcStatus($bgStatusFilename, "outputfilename", $bgOutputFilename);
+		// Child process.
+		try {
+			$bgOutputFilename = $this->createBgProcOutput();
+			$this->updateBgProcStatus($bgStatusFilename, "outputfilename", $bgOutputFilename);
 
-		$cmd = sprintf("omv-mkconf %s update 2>&1", $this->getPluginName() );
-		$this->exec($cmd, $output, $bgOutputFilename);
-		$this->finalizeBgProcStatus($bgStatusFilename, $output);
+			$cmd = sprintf("omv-mkconf %s update 2>&1", $this->getPluginName() );
+			$this->exec($cmd, $output, $bgOutputFilename);
+			$this->finalizeBgProcStatus($bgStatusFilename, $output);
 
-	} catch(Exception $e) {
-		$this->finalizeBgProcStatus($bgStatusFilename, "", $e);
-		exit(1);
+		} catch(Exception $e) {
+			$this->finalizeBgProcStatus($bgStatusFilename, "", $e);
+			exit(1);
+		}
+
 	}
-
-    }
 }
 
 // Register the RPC service.
 $rpcServiceMgr = &OMVRpcServiceMgr::getInstance();
-$rpcServiceMgr->registerService(new OMVRpcServiceEmby());
+$rpcServiceMgr->registerService(new OMVRpcServiceMediaBrowser());

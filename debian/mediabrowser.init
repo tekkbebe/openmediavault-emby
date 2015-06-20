@@ -59,7 +59,7 @@ start() {
 	DAEMON_OPTS=" -programdata ${DBFOLDER}"
 
 #	 start-stop-daemon --start --user root --chuid root --background -m --oknodo --pidfile /var/run/mediabrowser/mediabrowser.pid --chdir /opt/mediabrowser --exec /opt/mono/bin/mono -- MediaBrowser.Server.Mono.exe -programdata /var/lib/mediabrowser
-	start-stop-daemon -c $RUN_AS:$RUN_GRP --start --background -m --oknodo --pidfile $PID_FILE --chdir $APP_PATH --exec $DAEMON $DAEMON_OPTS
+	start-stop-daemon -c $RUN_AS:$RUN_GRP --start --background -m --oknodo -p $PID_FILE --chdir $APP_PATH --exec $DAEMON $DAEMON_OPTS
   else
     echo "$SERVICE is running"
   fi
@@ -69,7 +69,7 @@ stop() {
   if is_running; then
     echo "Stopping $SERVICE"
 #        start-stop-daemon --stop --pidfile /var/run/mediabrowser/mediabrowser.pid --retry 15 
-	start-stop-daemon --stop --pidfile $PID_FILE --retry 15
+	start-stop-daemon --stop -p $PID_FILE --retry 15
 
     rm -rf $PIDDIR
   fi

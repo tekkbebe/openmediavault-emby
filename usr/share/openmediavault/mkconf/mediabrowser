@@ -28,6 +28,9 @@ FFMPEG_LINK="/usr/local/bin/ffmpeg"
 LINK="https://github.com/MediaBrowser/MediaBrowser.Releases/raw/master/Server/MediaBrowser.Mono.zip"
 FILE="/tmp/MBServer.Mono.zip"
 INSTALL_DIR="/opt/${SERVICE}"
+LIBWEBP_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/libwebp.zip"
+LIBWEBP_FILE="/tmp/libwebp.zip"
+LIBWEBP_DIR="/opt/${SERVICE}/libwebp"
 LIBWEBP_CONF="/opt/${SERVICE}/Imazen.WebP.dll.config"
 MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
 SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
@@ -76,10 +79,20 @@ install()
     unzip ${FILE} -d ${INSTALL_DIR}
     rm -f ${FILE}
 
+    if [ -f "${LIBWEBP_FILE}" ]; then
+        rm -f ${LIBWEBP_FILE}
+    fi
+    echo "Downloading..."
+    wget ${LIBWEBP_LINK} -O ${LIBWEBP_FILE}
+
+    echo "Extracting..."
+    unzip ${LIBWEBP_FILE} -d ${LIBWEBP_DIR}
+    rm -f ${LIBWEBP_FILE}
+
     echo "Creating libwebp config..."
     cat <<EOF > "${LIBWEBP_CONF}"
 <configuration>
-  <dllmap dll="libwebp" target="./libwebp/osx/libwebp.5.dylib" os="osx"/>
+  <dllmap dll="libwebp" target="./libwebp/linux/libwebp.so.5.0.2" os="linux"/>
 </configuration>  
 EOF
 
@@ -93,11 +106,14 @@ EOF
     echo "Creating sqlite3 config..."
     cat <<EOF > "${SQLITE3_CONF}"
 <configuration>
-  <dllmap dll="sqlite3" target="libsqlite3.0.dylib" os="osx"/>
+  <dllmap dll="sqlite3" target="libsqlite3.so" os="linux"/>
 </configuration>
 EOF
 
     chown -R ${RUN_AS}:${RUN_GRP} ${INSTALL_DIR}
+    chmod 755 ${INSTALL_DIR}/libwebp/linux/libwebp.so.5.0.2
+    chmod 755 ${INSTALL_DIR}/MediaInfo/osx/libmediainfo.dylib
+    chmod 755 ${INSTALL_DIR}/MediaBrowser.Server.Mono.exe
 
     echo "Calling insserv..."
     insserv ${SERVICE}
@@ -144,8 +160,8 @@ case $2 in
                     if [ ! -e "${FFMPEG_LINK}" ]; then
                         mv ${current_data_directory}/ffmpeg ${FFMPEG_LINK}
                         ln -s ${FFMPEG_LINK} ${current_data_directory}/ffmpeg
-                        chmod +x ${FFMPEG_LINK}/*/ffmpeg
-                        chmod +x ${FFMPEG_LINK}/*/ffprobe
+                        chmod 755 ${FFMPEG_LINK}/*/ffmpeg
+                        chmod 755 ${FFMPEG_LINK}/*/ffprobe
                     fi
                     
                     if [ -e "${current_data_directory}/ffmpeg" ]; then
@@ -198,4 +214,3 @@ if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
 fi
 
 exit 0
-

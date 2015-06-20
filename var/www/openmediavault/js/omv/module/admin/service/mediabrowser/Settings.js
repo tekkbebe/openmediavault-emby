@@ -18,16 +18,19 @@
 // require("js/omv/WorkspaceManager.js")
 // require("js/omv/workspace/form/Panel.js")
 
-Ext.define("OMV.module.admin.service.emby.Settings", {
+Ext.define("OMV.module.admin.service.mediabrowser.Settings", {
     extend : "OMV.workspace.form.Panel",
 
-    rpcService   : "Emby",
+    rpcService   : "MediaBrowser",
     rpcGetMethod : "getSettings",
     rpcSetMethod : "setSettings",
 
     plugins      : [{
         ptype        : "linkedfields",
         correlations : [{
+            name        : [
+              "enable"
+            ],
             conditions  : [
                 { name : "enable", value : true }
             ],
@@ -79,7 +82,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
                     },
                     relayErrors : false,
                     rpcData     : {
-                        service  : "Emby",
+                        service  : "MediaBrowser",
                         method   : "doRestart"
                     }
                 });
@@ -87,13 +90,13 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
         },{
             id       : me.getId() + "-webclient",
             xtype    : "button",
-			text    : _("Emby Web Client"),
-            icon     : "images/emby.png",
+			text    : _("Media Browser Web Client"),
+            icon     : "images/mediabrowser.png",
             iconCls  : Ext.baseCSSPrefix + "btn-icon-16x16",
             disabled : true,
             scope    : me,
             handler  : function() {
-				var link = 'http://' + location.hostname + ':8096/emby';
+				var link = 'https://' + location.hostname + ':8920/mediabrowser';
 				window.open(link, '_blank');
             }
         });
@@ -177,7 +180,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
     onUpdate : function() {
         Ext.create("OMV.window.Execute", {
             title          : _("Click start to force update..."),
-            rpcService     : "Emby",
+            rpcService     : "MediaBrowser",
             rpcMethod      : "doUpdate",
             hideStopButton : true,
             listeners      : {
@@ -189,8 +192,8 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
 
 OMV.WorkspaceManager.registerPanel({
     id        : "settings",
-    path      : "/service/emby",
+    path      : "/service/mediabrowser",
     text      : _("Settings"),
     position  : 10,
-    className : "OMV.module.admin.service.emby.Settings"
+    className : "OMV.module.admin.service.mediabrowser.Settings"
 });
