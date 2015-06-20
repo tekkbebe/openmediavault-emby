@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 OpenMediaVault Plugin Developers
+ * Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,9 +18,9 @@
 // require("js/omv/WorkspaceManager.js")
 
 OMV.WorkspaceManager.registerNode({
-    id      : "mediabrowser",
+    id      : "emby",
     path    : "/service",
-    text    : _("Media Browser Server"),
-    icon16  : "images/mediabrowser.png",
-    iconSvg : "images/mediabrowser.svg"
+    text    : _("Emby Server"),
+    icon16  : "images/emby.png",
+    iconSvg : "images/emby.svg"
 });
