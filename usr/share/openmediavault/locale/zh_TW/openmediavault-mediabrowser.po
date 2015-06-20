@@ -1,0 +1,58 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: openmediavault-mediabrowser\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-14 14:05-0600\n"
+"PO-Revision-Date: 2014-11-14 20:08+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/openmediavault-mediabrowser/language/zh_TW/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: zh_TW\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Database Folder"
+msgstr ""
+
+msgid "Database Volume"
+msgstr ""
+
+msgid ""
+"Database files will move to new location if database volume is changed."
+msgstr ""
+
+msgid "Enable"
+msgstr ""
+
+msgid "General settings"
+msgstr ""
+
+msgid "Media Browser Server"
+msgstr ""
+
+msgid "Media Browser Web Client"
+msgstr ""
+
+msgid "MediaBrowser"
+msgstr ""
+
+msgid "Select a volume ..."
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Show Client"
+msgstr ""
+
+msgid "Show tab containing Web Client frame."
+msgstr ""
+
+msgid "Web Client"
+msgstr ""

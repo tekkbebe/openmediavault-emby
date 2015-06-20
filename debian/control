@@ -1,0 +1,15 @@
+Source: openmediavault-mediabrowser
+Section: net
+XB-Plugin-Section: multimedia
+Priority: optional
+Maintainer: OpenMediaVault Plugin Developers <plugins@omv-extras.org>
+Build-Depends: debhelper (>= 9.0.0 )
+Standards-Version: 3.9.3
+
+Package: openmediavault-mediabrowser
+Architecture: all
+Depends: openmediavault (>= 1.0.21), ${misc:Depends}, libmono-cil-dev (>= 3.10), cli-common-dev (>= 0.7), libgdiplus (>= 3.8), unzip
+Description: Media Browser Server plugin for OpenMediaVault.
+ Media Browser Server is a home media server built on top of
+ other popular open source technologies such as Service Stack,
+ jQuery, jQuery mobile, and Mono.

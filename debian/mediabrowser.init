@@ -1,0 +1,104 @@
+#! /bin/sh
+
+### BEGIN INIT INFO
+# Provides:          mediabrowser
+# Required-Start:    $local_fs $network $remote_fs
+# Required-Stop:     $local_fs $network $remote_fs
+# Should-Start:      $NetworkManager
+# Should-Stop:       $NetworkManager
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts instance of MediaBrowser
+# Description:       starts instance of MediaBrowser using start-stop-daemon
+### END INIT INFO
+
+set -e
+
+SERVICE="mediabrowser"
+RUN_AS="mediabrowser"
+RUN_GRP="nogroup"
+APP_PATH="/opt/${SERVICE}"
+PIDDIR="/var/run/${SERVICE}"
+PID_FILE="/var/run/${SERVICE}/${SERVICE}.pid"
+DAEMON="/usr/bin/mono -- MediaBrowser.Server.Mono.exe"
+
+SERVICE_XPATH="//services/${SERVICE}"
+
+. /lib/lsb/init-functions
+. /usr/share/openmediavault/scripts/helper-functions
+
+
+is_running() {
+    if [ ! -e $PID_FILE ]; then
+        return 1
+    else
+        PID=`cat $PID_FILE`
+        if ! kill -0 $PID > /dev/null 2>&1; then
+            rm $PID_FILE
+            return 1
+        fi
+    fi
+    return 0
+}    
+
+start() {
+  if ! is_running; then
+    echo "Starting $SERVICE"
+	if omv_config_exists "${SERVICE_XPATH}"; then
+		DBFOLDER="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
+	else
+		DBFOLDER="/var/lib/${SERVICE}"
+	fi
+
+       if [ ! -d $PIDDIR ]; then
+         mkdir -p $PIDDIR
+         chown $RUN_AS:$RUN_GRP $PIDDIR
+         chmod 2775 $PIDDIR
+       fi
+
+	DAEMON_OPTS=" -programdata ${DBFOLDER}"
+
+#	 start-stop-daemon --start --user root --chuid root --background -m --oknodo --pidfile /var/run/mediabrowser/mediabrowser.pid --chdir /opt/mediabrowser --exec /opt/mono/bin/mono -- MediaBrowser.Server.Mono.exe -programdata /var/lib/mediabrowser
+	start-stop-daemon -c $RUN_AS:$RUN_GRP --start --background -m --oknodo --pidfile $PID_FILE --chdir $APP_PATH --exec $DAEMON $DAEMON_OPTS
+  else
+    echo "$SERVICE is running"
+  fi
+}
+
+stop() {
+  if is_running; then
+    echo "Stopping $SERVICE"
+#        start-stop-daemon --stop --pidfile /var/run/mediabrowser/mediabrowser.pid --retry 15 
+	start-stop-daemon --stop --pidfile $PID_FILE --retry 15
+
+    rm -rf $PIDDIR
+  fi
+}
+
+restart() {
+  if is_running; then
+    stop
+    sleep 1
+    start
+  else
+    echo "$SERVICE is not running"
+  fi
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    restart
+    ;;
+  status)
+#	 status_of_proc -p /var/run/mediabrowser/mediabrowser.pid "/opt/mono/bin/mono -- MediaBrowser.Server.Mono.exe" "mediabrowser"
+	status_of_proc -p $PID_FILE "$DAEMON" "$SERVICE"
+    ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+esac

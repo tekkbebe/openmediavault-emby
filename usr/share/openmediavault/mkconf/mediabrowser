@@ -1,0 +1,201 @@
+#!/bin/sh
+#
+# Copyright (C) 2014 OpenMediaVault Plugin Developers
+#
+# This file is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# any later version.
+#
+# This file is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this file. If not, see <http://www.gnu.org/licenses/>.
+
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+RUN_AS="mediabrowser"
+RUN_GRP="nogroup"
+SERVICE="mediabrowser"
+SERVICE_XPATH="//services/${SERVICE}"
+FFMPEG_LINK="/usr/local/bin/ffmpeg"
+LINK="https://github.com/MediaBrowser/MediaBrowser.Releases/raw/master/Server/MediaBrowser.Mono.zip"
+FILE="/tmp/MBServer.Mono.zip"
+INSTALL_DIR="/opt/${SERVICE}"
+LIBWEBP_CONF="/opt/${SERVICE}/Imazen.WebP.dll.config"
+MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
+SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
+
+if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
+    update-rc.d ${SERVICE} disable || :
+fi
+
+install()
+{
+    if omv_config_exists "${SERVICE_XPATH}"; then
+        data_directory="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
+        xmlstarlet ed -L -u "${SERVICE_XPATH}/old_db-folder" -v "" -n ${OMV_CONFIG_FILE}
+    fi
+    if [ "${data_directory}" = "" ]; then
+        data_directory="/var/lib/${SERVICE}"
+    fi
+
+    if [ ! -d "${data_directory}" ]; then
+        mkdir -p "${data_directory}"
+        chown ${RUN_AS}:${RUN_GRP} ${data_directory}
+    fi
+
+    if [ -d "${INSTALL_DIR}/ProgramData-Server" ]; then
+        echo "Moving data directory from <${INSTALL_DIR}/ProgramData-Server> to <${data_directory}>..."
+        if [ ! -d "${data_directory}/ProgramData-Server" ]; then
+            cp -rf ${INSTALL_DIR}/ProgramData-Server ${data_directory}
+            chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
+        fi
+    fi
+
+    if [ -d "${INSTALL_DIR}" ]; then
+        rm -rf "${INSTALL_DIR}"
+    fi
+
+    mkdir -p "${INSTALL_DIR}"
+    chown ${RUN_AS}:${RUN_GRP} ${INSTALL_DIR}
+
+    if [ -f "${FILE}" ]; then
+        rm -f ${FILE}
+    fi
+    echo "Downloading..."
+    wget ${LINK} -O ${FILE}
+
+    echo "Extracting..."
+    unzip ${FILE} -d ${INSTALL_DIR}
+    rm -f ${FILE}
+
+    echo "Creating libwebp config..."
+    cat <<EOF > "${LIBWEBP_CONF}"
+<configuration>
+  <dllmap dll="libwebp" target="./libwebp/osx/libwebp.5.dylib" os="osx"/>
+</configuration>  
+EOF
+
+    echo "Creating mediainfo config..."
+    cat <<EOF > "${MEDIAINFO_CONF}"
+<configuration>
+  <dllmap dll="MediaInfo" target="./MediaInfo/osx/libmediainfo.dylib" os="osx"/>
+</configuration>
+EOF
+
+    echo "Creating sqlite3 config..."
+    cat <<EOF > "${SQLITE3_CONF}"
+<configuration>
+  <dllmap dll="sqlite3" target="libsqlite3.0.dylib" os="osx"/>
+</configuration>
+EOF
+
+    chown -R ${RUN_AS}:${RUN_GRP} ${INSTALL_DIR}
+
+    echo "Calling insserv..."
+    insserv ${SERVICE}
+    echo "...ok"
+}
+
+case $2 in
+    install)
+        echo "Installing Media Browser..."
+        install
+    ;;
+
+    update)
+        echo "Updating Media Browser..."
+        update-rc.d ${SERVICE} stop
+        install
+    ;;
+
+    moveDbFolder)
+        if omv_config_exists "${SERVICE_XPATH}/old_db-folder"; then
+            current_data_directory="$(omv_config_get "${SERVICE_XPATH}/old_db-folder")"
+
+            if [ "${current_data_directory}" != "" ]; then
+                if [ -d "${current_data_directory}" ]; then
+                    data_directory="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
+                    echo "Moving database from <${current_data_directory}> to <${data_directory}>..."
+
+                    if [ ! -d "${data_directory}" ]; then
+                        mkdir -p "${data_directory}"
+                    fi
+
+                    if [ -d "${current_data_directory}/cache" ]; then
+                        cp -rfp ${current_data_directory}/cache ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/config" ]; then
+                        cp -rfp ${current_data_directory}/config ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/data" ]; then
+                        cp -rfp ${current_data_directory}/data ${data_directory}/
+                    fi
+
+                    if [ ! -e "${FFMPEG_LINK}" ]; then
+                        mv ${current_data_directory}/ffmpeg ${FFMPEG_LINK}
+                        ln -s ${FFMPEG_LINK} ${current_data_directory}/ffmpeg
+                        chmod +x ${FFMPEG_LINK}/*/ffmpeg
+                        chmod +x ${FFMPEG_LINK}/*/ffprobe
+                    fi
+                    
+                    if [ -e "${current_data_directory}/ffmpeg" ]; then
+                        cp -rfp ${current_data_directory}/ffmpeg ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/ImagesByName" ]; then
+                        cp -rfp ${current_data_directory}/ImagesByName ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/localization" ]; then
+                        cp -rfp ${current_data_directory}/localization ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/logs" ]; then
+                        cp -rfp ${current_data_directory}/logs ${data_directory}/
+                    fi
+
+                    if [ -d "${current_data_directory}/root" ]; then
+                        cp -rfp ${current_data_directory}/root ${data_directory}/
+                    fi
+
+                    chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
+
+                    rm -rf ${current_data_directory}/cache
+                    rm -rf ${current_data_directory}/config
+                    rm -rf ${current_data_directory}/data
+                    rm -rf ${current_data_directory}/ffmpeg
+                    rm -rf ${current_data_directory}/ImagesByName
+                    rm -rf ${current_data_directory}/localization
+                    rm -rf ${current_data_directory}/logs
+                    rm -rf ${current_data_directory}/root
+
+                    # check for mediabrowser directory in path before deleting
+                    case "${current_data_directory}" in
+                        *mediabrowser*) rm -rf "${current_data_directory}" ;;
+                    esac
+                fi
+                xmlstarlet ed -L -u "${SERVICE_XPATH}/old_db-folder" -v "" -n ${OMV_CONFIG_FILE}
+            fi
+        fi
+    ;;
+
+    *)
+    ;;
+esac
+
+if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
+    invoke-rc.d ${SERVICE} start
+fi
+
+exit 0
+

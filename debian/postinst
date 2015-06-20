@@ -1,0 +1,86 @@
+#!/bin/sh
+
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+SERVICE_XPATH_NAME="mediabrowser"
+SERVICE_XPATH="//services/${SERVICE_XPATH_NAME}"
+
+case "$1" in
+    configure)
+        echo "Adding mediabrowser user..."
+        if ! getent passwd mediabrowser >/dev/null 2>&1; then
+            useradd --create-home -g nogroup --no-user-group --shell /usr/sbin/nologin mediabrowser
+            echo "...ok"
+        else
+            echo "[Warning] mediabrowser user already exists."
+        fi
+
+        echo "Removing old pid file if present..."
+        if [ -e /var/run/mediabrowser ]; then
+            rm -Rf /var/run/mediabrowser
+            echo "...ok"
+        fi
+
+        echo "Initial configuration..."
+        if ! omv_config_exists "${SERVICE_XPATH}"; then
+            omv_config_add_element "/config/services" "${SERVICE_XPATH_NAME}"
+            omv_config_add_element "${SERVICE_XPATH}" "enable" "0"
+            omv_config_add_element "${SERVICE_XPATH}" "showtab" "0"
+            omv_config_add_element "${SERVICE_XPATH}" "mntentref" ""
+            omv_config_add_element "${SERVICE_XPATH}" "db-folder" "/var/lib/${SERVICE_XPATH_NAME}"
+            omv_config_add_element "${SERVICE_XPATH}" "old_db-folder" ""
+            echo "...ok"
+        else
+            echo "[Warning] mediabrowser configuration already exists."
+        fi
+
+        echo "Launch triggers..."
+        omv_install_fixperms
+
+        # Activate package triggers. These triggers are only set during the
+        # package installation.
+        dpkg-trigger update-fixperms
+        dpkg-trigger update-locale
+        echo "...ok"
+
+        echo "Launching Media Browser install procedure..."
+        omv-mkconf mediabrowser install
+        echo "...ok"
+
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
+    echo "Waiting for folders to be created.";
+    i=0
+    while [ "$i" -le "60" ]
+        do
+            if [ -f /var/lib/${SERVICE_XPATH_NAME}/ffmpeg/*/fonts/fonts.conf ]; then
+                break
+            else
+                echo "$i";
+                i=$(($i+1))
+            fi
+            echo "Still waiting for folders to be created";
+            sleep 2;
+    done
+    sleep 5
+    invoke-rc.d ${SERVICE_XPATH_NAME} stop
+fi
+
+exit 0
+
+

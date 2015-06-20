@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+. /etc/default/openmediavault
+. /usr/share/openmediavault/scripts/helper-functions
+
+case "$1" in
+    purge)
+        SERVICE_XPATH_NAME="mediabrowser"
+        SERVICE_XPATH="/config/services/${SERVICE_XPATH_NAME}"
+        FFMPEG_LINK="/usr/local/bin/ffmpeg"
+
+        if [ -f "/var/run/${SERVICE_XPATH_NAME}/${SERVICE_XPATH_NAME}.pid" ]; then
+            PID=`cat /var/run/${SERVICE_XPATH_NAME}/${SERVICE_XPATH_NAME}.pid`;
+            if ! kill -0 $PID > /dev/null 2>&1; then
+                echo "Removing stale pid file"
+                rm /var/run/${SERVICE_XPATH_NAME}/${SERVICE_XPATH_NAME}.pid
+            else
+                kill -9 $PID;
+            fi
+        fi
+
+        if [ -e "${FFMPEG_LINK}" ]; then
+            rm -Rf ${FFMPEG_LINK}
+        fi
+
+        rm -rf /opt/${SERVICE_XPATH_NAME}
+        rm -f /etc/${SERVICE_XPATH_NAME}.conf
+        rm -Rf /var/run/${SERVICE_XPATH_NAME}
+
+        if omv_config_exists "${SERVICE_XPATH}"; then
+            DATADIR="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
+            omv_config_delete "${SERVICE_XPATH}"
+
+            # check for mediabrowser directory in path before deleting
+            case "${DATADIR}" in
+                *mediabrowser*) rm -rf "${DATADIR}" ;;
+            esac
+        fi
+        userdel -r ${SERVICE_XPATH_NAME} || :
+    ;;
+
+    remove)
+    ;;
+
+    upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument '$1'" >&2
+        exit 1
+    ;;
+esac
+
+#DEBHELPER#
+
+exit 0
