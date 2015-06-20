@@ -18,9 +18,9 @@
 // require("js/omv/WorkspaceManager.js")
 
 OMV.WorkspaceManager.registerNode({
-    id      : "mediabrowser",
+    id      : "emby",
     path    : "/service",
-    text    : _("Media Browser Server"),
-    icon16  : "images/mediabrowser.png",
-    iconSvg : "images/mediabrowser.svg"
+    text    : _("Emby Server"),
+    icon16  : "images/emby.png",
+    iconSvg : "images/emby.svg"
 });
