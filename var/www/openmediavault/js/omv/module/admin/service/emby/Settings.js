@@ -91,7 +91,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
             id       : me.getId() + "-webclient",
             xtype    : "button",
 			text    : _("Emby Web Client"),
-            icon     : "images/mediabrowser.png",
+            icon     : "images/emby.png",
             iconCls  : Ext.baseCSSPrefix + "btn-icon-16x16",
             disabled : true,
             scope    : me,
