@@ -23,12 +23,12 @@ require_once("openmediavault/util.inc");
 require_once("openmediavault/rpcservice.inc");
 require_once("openmediavault/initscript.inc");
 
-class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
+class OMVRpcServiceEmby extends OMVRpcServiceAbstract
 {
 
     public function getName()
     {
-        return "MediaBrowser";
+        return "Emby";
     }
 
     private function getPluginName()
@@ -238,4 +238,4 @@ class OMVRpcServiceMediaBrowser extends OMVRpcServiceAbstract
 
 // Register the RPC service.
 $rpcServiceMgr = &OMVRpcServiceMgr::getInstance();
-$rpcServiceMgr->registerService(new OMVRpcServiceMediaBrowser());
+$rpcServiceMgr->registerService(new OMVRpcServiceEmby());
