@@ -5,22 +5,27 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-SERVICE_XPATH_NAME="mediabrowser"
+SERVICE_XPATH_NAME="emby"
 SERVICE_XPATH="//services/${SERVICE_XPATH_NAME}"
 
 case "$1" in
     configure)
-        echo "Adding mediabrowser user..."
-        if ! getent passwd mediabrowser >/dev/null 2>&1; then
-            useradd --create-home -g nogroup --no-user-group --shell /usr/sbin/nologin mediabrowser
+        echo "Adding emby user..."
+        if ! getent passwd emby >/dev/null 2>&1; then
+            adduser  --quiet \
+                     --system \
+                     --ingroup nogroup \
+                     --no-create-home \
+                     --disable-password \
+                     emby
             echo "...ok"
         else
-            echo "[Warning] mediabrowser user already exists."
+            echo "[Warning] emby user already exists."
         fi
 
         echo "Removing old pid file if present..."
-        if [ -e /var/run/mediabrowser ]; then
-            rm -Rf /var/run/mediabrowser
+        if [ -e /var/run/emby ]; then
+            rm -Rf /var/run/emby
             echo "...ok"
         fi
 
@@ -34,7 +39,7 @@ case "$1" in
             omv_config_add_element "${SERVICE_XPATH}" "old_db-folder" ""
             echo "...ok"
         else
-            echo "[Warning] mediabrowser configuration already exists."
+            echo "[Warning] emby configuration already exists."
         fi
 
         echo "Launch triggers..."
@@ -46,8 +51,8 @@ case "$1" in
         dpkg-trigger update-locale
         echo "...ok"
 
-        echo "Launching Media Browser install procedure..."
-        omv-mkconf mediabrowser install
+        echo "Launching Emby install procedure..."
+        omv-mkconf emby install
         echo "...ok"
 
     ;;
@@ -82,5 +87,3 @@ if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
 fi
 
 exit 0
-
-
