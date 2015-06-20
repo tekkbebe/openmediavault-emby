@@ -1,4 +1,4 @@
-openmediavault-mediabrowser
+openmediavault-emby
 ==============================
 
-mediabrowser plugin for OpenMediaVault
+emby plugin for OpenMediaVault
