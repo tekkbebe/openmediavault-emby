@@ -47,29 +47,6 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
         return sprintf("org.openmediavault.services.%s", $this->getPluginName());
     }
 
-    public function getStatus()
-    {
-        global $xmlConfig;
-
-        $object = $xmlConfig->get($this->getXpath());
-
-        if (is_null($object)) {
-            throw new OMVException(
-                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
-                $this->getXpath()
-            );
-        }
-
-        $initd = new OMVSysVInitScript($this->getName());
-
-        return array(
-            "name" => $this->getName(),
-            "title" => gettext("Emby"),
-            "enabled" => boolval($object["enable"]),
-            "running" => $initd->status() == 0
-        );
-    }
-
     public function applyConfig()
     {
         $cmd = sprintf("omv-mkconf %s moveDbFolder 2>&1", $this->getName());
@@ -118,6 +95,30 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
             array($this, "setDirty")
         );
     }
+
+    public function getStatus()
+    {
+        global $xmlConfig;
+
+        $object = $xmlConfig->get($this->getXpath());
+
+        if (is_null($object)) {
+            throw new OMVException(
+                OMVErrorMsg::E_CONFIG_GET_OBJECT_FAILED,
+                $this->getXpath()
+            );
+        }
+
+        $initd = new OMVSysVInitScript($this->getName());
+
+        return array(
+            "name" => $this->getName(),
+            "title" => gettext("Emby"),
+            "enabled" => boolval($object["enable"]),
+            "running" => $initd->status() == 0
+        );
+    }
+
 }
 
 // Register module
