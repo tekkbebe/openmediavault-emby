@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright (C) 2014 OpenMediaVault Plugin Developers
+ * Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,45 +23,30 @@ require_once "openmediavault/initscript.inc";
 require_once "openmediavault/module.inc";
 require_once "openmediavault/util.inc";
 
-class OMVModuleMediaBrowser extends OMVModuleServiceAbstract implements
+class OMVModuleEmby extends OMVModuleServiceAbstract implements
     OMVIModuleServiceStatus,
     OMVINotifyListener
 {
-    /**
-     * Get the main event message path.
-     *
-     * @return string
-     */
-    private function getEventMessagePath()
-    {
-        return "org.openmediavault.services.mediabrowser";
-    }
-
-    /**
-     * Get the service configuration XPath.
-     *
-     * @return string
-     */
-    private function getXpath()
-    {
-        return "/config/services/mediabrowser";
-    }
-
-    /**
-     * Get the module name.
-     *
-     * @return string
-     */
     public function getName()
     {
-        return "mediabrowser";
+        return "Emby";
+    }
+    
+    private function getPluginName()
+    {
+        return strtolower($this->getName());
+    }
+    
+    private function getXPath()
+    {
+        return sprintf("//services/%s", $this->getPluginName());
+    }
+    
+    private function getEventMessagePath()
+    {
+        return sprintf("org.openmediavault.services.%s", $this->getPluginName());
     }
 
-    /**
-     * Get the status of the service.
-     *
-     * @return array
-     */
     public function getStatus()
     {
         global $xmlConfig;
@@ -79,17 +64,12 @@ class OMVModuleMediaBrowser extends OMVModuleServiceAbstract implements
 
         return array(
             "name" => $this->getName(),
-            "title" => gettext("MediaBrowser"),
+            "title" => gettext("Emby"),
             "enabled" => boolval($object["enable"]),
             "running" => $initd->status() == 0
         );
     }
 
-    /**
-     * Create and update the configuration.
-     *
-     * @return  void
-     */
     public function applyConfig()
     {
         $cmd = sprintf("omv-mkconf %s moveDbFolder 2>&1", $this->getName());
@@ -103,11 +83,6 @@ class OMVModuleMediaBrowser extends OMVModuleServiceAbstract implements
         }
     }
 
-    /**
-     * Start the managed service.
-     *
-     * @return void
-     */
     public function startService()
     {
         global $xmlConfig;
@@ -129,22 +104,12 @@ class OMVModuleMediaBrowser extends OMVModuleServiceAbstract implements
         $initd->exec();
     }
 
-    /**
-     * Stop the managed service.
-     *
-     * @return void
-     */
     public function stopService()
     {
         $initd = new OMVSysVInitScript($this->getName());
         $initd->exec();
     }
 
-    /**
-     * Bind listeners.
-     *
-     * @return void
-     */
     public function bindListeners(OMVNotifyDispatcher $dispatcher)
     {
         $dispatcher->addListener(
@@ -157,4 +122,4 @@ class OMVModuleMediaBrowser extends OMVModuleServiceAbstract implements
 
 // Register module
 $moduleMgr = &OMVModuleMgr::getInstance();
-$moduleMgr->registerModule(new OMVModuleMediaBrowser());
+$moduleMgr->registerModule(new OMVModuleEmby());
