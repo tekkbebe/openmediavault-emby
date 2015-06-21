@@ -7,7 +7,7 @@ set -e
 
 case "$1" in
     purge)
-        SERVICE_XPATH_NAME="mediabrowser"
+        SERVICE_XPATH_NAME="emby"
         SERVICE_XPATH="/config/services/${SERVICE_XPATH_NAME}"
         FFMPEG_LINK="/usr/local/bin/ffmpeg"
 
@@ -33,9 +33,9 @@ case "$1" in
             DATADIR="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
             omv_config_delete "${SERVICE_XPATH}"
 
-            # check for mediabrowser directory in path before deleting
+            # check for emby directory in path before deleting
             case "${DATADIR}" in
-                *mediabrowser*) rm -rf "${DATADIR}" ;;
+                *emby*) rm -rf "${DATADIR}" ;;
             esac
         fi
         userdel -r ${SERVICE_XPATH_NAME} || :
