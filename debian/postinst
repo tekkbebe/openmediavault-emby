@@ -51,7 +51,7 @@ case "$1" in
         dpkg-trigger update-locale
         echo "...ok"
 
-        echo "Launching Media Browser install procedure..."
+        echo "Launching Emby install procedure..."
         omv-mkconf emby install
         echo "...ok"
 
