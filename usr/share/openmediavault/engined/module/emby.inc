@@ -87,15 +87,6 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
         $initd->exec();
     }
 
-    public function bindListeners(OMVNotifyDispatcher $dispatcher)
-    {
-        $dispatcher->addListener(
-            OMV_NOTIFY_CREATE | OMV_NOTIFY_MODIFY | OMV_NOTIFY_DELETE,
-            $this->getEventMessagePath(),
-            array($this, "setDirty")
-        );
-    }
-
     public function getStatus()
     {
         global $xmlConfig;
@@ -116,6 +107,15 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
             "title" => gettext("Emby"),
             "enabled" => boolval($object["enable"]),
             "running" => $initd->status() == 0
+        );
+    }
+
+    public function bindListeners(OMVNotifyDispatcher $dispatcher)
+    {
+        $dispatcher->addListener(
+            OMV_NOTIFY_CREATE | OMV_NOTIFY_MODIFY | OMV_NOTIFY_DELETE,
+            $this->getEventMessagePath(),
+            array($this, "setDirty")
         );
     }
 
