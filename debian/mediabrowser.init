@@ -1,21 +1,21 @@
 #! /bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          mediabrowser
+# Provides:          emby
 # Required-Start:    $local_fs $network $remote_fs
 # Required-Stop:     $local_fs $network $remote_fs
 # Should-Start:      $NetworkManager
 # Should-Stop:       $NetworkManager
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: starts instance of MediaBrowser
-# Description:       starts instance of MediaBrowser using start-stop-daemon
+# Short-Description: starts instance of Emby
+# Description:       starts instance of Emby using start-stop-daemon
 ### END INIT INFO
 
 set -e
 
-SERVICE="mediabrowser"
-RUN_AS="mediabrowser"
+SERVICE="emby"
+RUN_AS="emby"
 RUN_GRP="nogroup"
 APP_PATH="/opt/${SERVICE}"
 PIDDIR="/var/run/${SERVICE}"
