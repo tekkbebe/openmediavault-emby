@@ -8,7 +8,15 @@ Standards-Version: 3.9.3
 
 Package: openmediavault-emby
 Architecture: all
-Depends: openmediavault (>= 1.0.21), ${misc:Depends}, libmono-cil-dev (>= 3.10), cli-common-dev (>= 0.7), libsqlite3-dev (>= 3.7.2), libgdiplus (>= 3.8), unzip
+Depends: openmediavault (>= 1.0.21),
+         ${misc:Depends},
+         libmono-cil-dev (>= 3.10),
+         cli-common-dev (>= 0.7),
+         libsqlite3-dev (>= 3.7.2),
+         libgdiplus (>= 3.8),
+         libtiff4,
+         libxext6,
+         unzip
 Description: Emby plugin for OpenMediaVault.
  Emby is a home media server built on top of
  other popular open source technologies such as Service Stack,
