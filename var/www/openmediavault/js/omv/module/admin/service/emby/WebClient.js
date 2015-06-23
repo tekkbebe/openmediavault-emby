@@ -26,7 +26,7 @@ Ext.define("OMV.module.admin.service.emby.WebClient", {
 
     initComponent : function() {
         var me = this;
-        var link = 'https://' + location.hostname + ':8906/emby';
+        var link = 'https://' + location.hostname + ':8096/emby';
 
         me.html = "<iframe src='" + link + "' width='100%' height='100%' />";
         me.callParent(arguments);
