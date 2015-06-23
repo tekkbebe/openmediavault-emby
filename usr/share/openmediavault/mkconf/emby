@@ -89,8 +89,8 @@ install()
     unzip ${LIBS_FILE} -d ${LIBS_DIR}
     rm -f ${LIBS_FILE}
 
-    echo "Creating libwebp config..."
-    cat <<EOF > "${LIBWEBP_CONF}"
+    echo "Creating ImageMagick config..."
+    cat <<EOF > "${IMAGEMAGICK_CONF}"
 <configuration>
   <dllmap dll="libwebp" target="./libwebp/linux/libwebp.so.5.0.2" os="linux"/>
 </configuration>  
