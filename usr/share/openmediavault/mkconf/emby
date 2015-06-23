@@ -89,7 +89,7 @@ install()
     unzip ${LIBS_FILE} -d ${LIBS_DIR}
     rm -f ${LIBS_FILE}
 
-    echo "Creating ImageMagick config..."
+    echo "Creating imagemagick config..."
     cat <<EOF > "${IMAGEMAGICK_CONF}"
 <configuration>
   <dllmap dll="CORE_RL_Wand_.dll" target="libMagickWand-6.Q8.so" os="linux"/>
