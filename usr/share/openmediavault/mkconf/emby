@@ -115,7 +115,6 @@ EOF
     chmod 755 ${INSTALL_DIR}/embylibs/libMagickWand-6.Q8.so.2.0.0
     chmod 755 ${INSTALL_DIR}/embylibs/libMagickCore-6.Q8.so.2.0.0
     chmod 755 ${INSTALL_DIR}/MediaBrowser.Server.Mono.exe
-    ldconfig
     symlink from wand libMagickWand-6.Q8.so.2.0.0 to libMagickWand-6.Q8.so
     ldconfig
 
