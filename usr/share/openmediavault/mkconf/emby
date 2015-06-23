@@ -115,7 +115,7 @@ EOF
     chmod 755 ${INSTALL_DIR}/embylibs/libMagickWand-6.Q8.so.2.0.0
     chmod 755 ${INSTALL_DIR}/embylibs/libMagickCore-6.Q8.so.2.0.0
     chmod 755 ${INSTALL_DIR}/MediaBrowser.Server.Mono.exe
-    symlink from wand libMagickWand-6.Q8.so.2.0.0 to libMagickWand-6.Q8.so
+    ln -s /opt/emby/embylibs/libMagickWand-6.Q8.so.2.0.0 /opt/emby/embylibs/libMagickWand-6.Q8.so
     ldconfig
 
     echo "Calling insserv..."
