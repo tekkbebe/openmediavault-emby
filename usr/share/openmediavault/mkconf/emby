@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2014 OpenMediaVault Plugin Developers
+# Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
 #
 # This file is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,18 +20,18 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-RUN_AS="mediabrowser"
+RUN_AS="emby"
 RUN_GRP="nogroup"
-SERVICE="mediabrowser"
+SERVICE="emby"
 SERVICE_XPATH="//services/${SERVICE}"
 FFMPEG_LINK="/usr/local/bin/ffmpeg"
 LINK="https://github.com/MediaBrowser/MediaBrowser.Releases/raw/master/Server/MediaBrowser.Mono.zip"
 FILE="/tmp/MBServer.Mono.zip"
 INSTALL_DIR="/opt/${SERVICE}"
-LIBWEBP_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/libwebp.zip"
-LIBWEBP_FILE="/tmp/libwebp.zip"
-LIBWEBP_DIR="/opt/${SERVICE}/libwebp"
-LIBWEBP_CONF="/opt/${SERVICE}/Imazen.WebP.dll.config"
+LIBS_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/libwebp.zip"
+LIBS_FILE="/tmp/embylibs.zip"
+LIBS_DIR="/opt/${SERVICE}/embylibs"
+IMAGEMAGICK_CONF="/opt/${SERVICE}/Imazen.WebP.dll.config"
 MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
 SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
 
@@ -79,15 +79,15 @@ install()
     unzip ${FILE} -d ${INSTALL_DIR}
     rm -f ${FILE}
 
-    if [ -f "${LIBWEBP_FILE}" ]; then
-        rm -f ${LIBWEBP_FILE}
+    if [ -f "${LIBS_FILE}" ]; then
+        rm -f ${LIBS_FILE}
     fi
     echo "Downloading..."
-    wget ${LIBWEBP_LINK} -O ${LIBWEBP_FILE}
+    wget ${LIBS_LINK} -O ${LIBS_FILE}
 
     echo "Extracting..."
-    unzip ${LIBWEBP_FILE} -d ${LIBWEBP_DIR}
-    rm -f ${LIBWEBP_FILE}
+    unzip ${LIBS_FILE} -d ${LIBS_DIR}
+    rm -f ${LIBS_FILE}
 
     echo "Creating libwebp config..."
     cat <<EOF > "${LIBWEBP_CONF}"
