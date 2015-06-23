@@ -112,7 +112,8 @@ EOF
 
     chown -R ${RUN_AS}:${RUN_GRP} ${INSTALL_DIR}
     chmod 755 ${INSTALL_DIR}/embylibs/libwebp.so.5.0.2
-    chmod 755 ${INSTALL_DIR}/MediaInfo/osx/libmediainfo.dylib
+    chmod 755 ${INSTALL_DIR}/embylibs/libMagickWand-6.Q8.so.2.0.0
+    chmod 755 ${INSTALL_DIR}/embylibs/libMagickCore-6.Q8.so.2.0.0
     chmod 755 ${INSTALL_DIR}/MediaBrowser.Server.Mono.exe
     ldconfig
 
