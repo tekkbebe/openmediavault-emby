@@ -16,7 +16,7 @@ case "$1" in
                      --system \
                      --ingroup nogroup \
                      --no-create-home \
-                     --disable-password \
+                     --disabled-password \
                      emby
             echo "...ok"
         else
