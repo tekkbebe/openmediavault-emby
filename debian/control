@@ -14,6 +14,7 @@ Depends: openmediavault (>= 1.0.21),
          cli-common-dev (>= 0.7),
          libsqlite3-dev (>= 3.7.2),
          libgdiplus (>= 3.8),
+         mediainfo (>= 0.7.52),
          libtiff4,
          libxext6,
          unzip
