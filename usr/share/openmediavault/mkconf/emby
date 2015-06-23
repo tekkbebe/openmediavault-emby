@@ -31,7 +31,7 @@ INSTALL_DIR="/opt/${SERVICE}"
 LIBS_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/libwebp.zip"
 LIBS_FILE="/tmp/embylibs.zip"
 LIBS_DIR="/opt/${SERVICE}/embylibs"
-IMAGEMAGICK_CONF="/opt/${SERVICE}/Imazen.WebP.dll.config"
+IMAGEMAGICK_CONF="/opt/${SERVICE}/ImageMagickSharp.dll.config"
 MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
 SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
 
