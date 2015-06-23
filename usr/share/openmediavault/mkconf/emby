@@ -125,12 +125,12 @@ EOF
 
 case $2 in
     install)
-        echo "Installing Media Browser..."
+        echo "Installing Emby..."
         install
     ;;
 
     update)
-        echo "Updating Media Browser..."
+        echo "Updating Emby..."
         update-rc.d ${SERVICE} stop
         install
     ;;
