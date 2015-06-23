@@ -92,14 +92,14 @@ install()
     echo "Creating ImageMagick config..."
     cat <<EOF > "${IMAGEMAGICK_CONF}"
 <configuration>
-  <dllmap dll="libwebp" target="./libwebp/linux/libwebp.so.5.0.2" os="linux"/>
+  <dllmap dll="CORE_RL_Wand_.dll" target="libMagickWand-6.Q8.so" os="linux"/>
 </configuration>  
 EOF
 
     echo "Creating mediainfo config..."
     cat <<EOF > "${MEDIAINFO_CONF}"
 <configuration>
-  <dllmap dll="MediaInfo" target="./MediaInfo/osx/libmediainfo.dylib" os="osx"/>
+  <dllmap dll="MediaInfo" target="libmediainfo.so" os="linux"/>
 </configuration>
 EOF
 
