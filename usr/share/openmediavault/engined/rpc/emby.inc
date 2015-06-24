@@ -53,16 +53,6 @@ class OMVRpcServiceEmby extends OMVRpcServiceAbstract
         $this->registerMethod("doUpdate");
     }
 
-    /**
-     * Get the settings of the service.
-     *
-     * @param array $params The method paramaters.
-     * @param array $context The context of the caller.
-     *
-     * @throws E_CONFIG_GET_OBJECT_FAILED
-     *
-     * @return mixed
-     */
     public function getSettings($params, $context)
     {
         global $xmlConfig;
@@ -90,17 +80,7 @@ class OMVRpcServiceEmby extends OMVRpcServiceAbstract
 
         return $settingsObject;
     }
-
-    /**
-     * Set the settings of the service.
-     *
-     * @param array $params The method paramaters.
-     * @param array $context The context of the caller.
-     *
-     * @throws E_CONFIG_SET_OBJECT_FAILED
-     *
-     * @return mixed
-     */
+    
     public function setSettings($params, $context)
     {
         global $xmlConfig;
