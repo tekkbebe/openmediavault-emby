@@ -49,7 +49,7 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
 
     public function applyConfig()
     {
-        $cmd = sprintf("omv-mkconf %s moveDbFolder 2>&1", $this->getName());
+        $cmd = sprintf("omv-mkconf %s moveDbFolder 2>&1", $this->getPluginName());
 
         if (0 !== $this->exec($cmd, $output)) {
             throw new OMVException(
@@ -77,13 +77,13 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
             return;
         }
 
-        $initd = new OMVSysVInitScript($this->getName(), true);
+        $initd = new OMVSysVInitScript($this->getPluginName(), true);
         $initd->exec();
     }
 
     public function stopService()
     {
-        $initd = new OMVSysVInitScript($this->getName());
+        $initd = new OMVSysVInitScript($this->getPluginName());
         $initd->exec();
     }
 
@@ -100,10 +100,10 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
             );
         }
 
-        $initd = new OMVSysVInitScript($this->getName());
+        $initd = new OMVSysVInitScript($this->getPluginName());
 
         return array(
-            "name" => $this->getName(),
+            "name" => $this->getPluginName(),
             "title" => gettext("Emby"),
             "enabled" => boolval($object["enable"]),
             "running" => $initd->status() == 0
