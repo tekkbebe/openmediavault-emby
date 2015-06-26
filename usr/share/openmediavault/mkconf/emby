@@ -145,55 +145,21 @@ case $2 in
                         mkdir -p "${data_directory}"
                     fi
 
-                    if [ -d "${current_data_directory}/cache" ]; then
-                        cp -rfp ${current_data_directory}/cache ${data_directory}/
-                    fi
-
-                    if [ -d "${current_data_directory}/config" ]; then
-                        cp -rfp ${current_data_directory}/config ${data_directory}/
-                    fi
-
-                    if [ -d "${current_data_directory}/data" ]; then
-                        cp -rfp ${current_data_directory}/data ${data_directory}/
-                    fi
-
                     if [ ! -e "${FFMPEG_LINK}" ]; then
                         cp -rfp ${current_data_directory}/ffmpeg ${FFMPEG_LINK}
+                        rm -rf ${current_data_directory}/ffmpeg
                         ln -s ${FFMPEG_LINK} ${current_data_directory}/ffmpeg
                         chmod 755 ${FFMPEG_LINK}/*/ffmpeg
                         chmod 755 ${FFMPEG_LINK}/*/ffprobe
                     fi
                     
-                    if [ -e "${current_data_directory}/ffmpeg" ]; then
-                        cp -rfp ${current_data_directory}/ffmpeg ${data_directory}/
+                    if [ -d "${current_data_directory}/cache" ]; then
+                        cp -rfp ${current_data_directory}/* ${data_directory}/
                     fi
-
-                    if [ -d "${current_data_directory}/ImagesByName" ]; then
-                        cp -rfp ${current_data_directory}/ImagesByName ${data_directory}/
-                    fi
-
-                    if [ -d "${current_data_directory}/localization" ]; then
-                        cp -rfp ${current_data_directory}/localization ${data_directory}/
-                    fi
-
-                    if [ -d "${current_data_directory}/logs" ]; then
-                        cp -rfp ${current_data_directory}/logs ${data_directory}/
-                    fi
-
-                    if [ -d "${current_data_directory}/root" ]; then
-                        cp -rfp ${current_data_directory}/root ${data_directory}/
-                    fi
-
+                    
                     chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
 
-                    rm -rf ${current_data_directory}/cache
-                    rm -rf ${current_data_directory}/config
-                    rm -rf ${current_data_directory}/data
-                    rm -rf ${current_data_directory}/ffmpeg
-                    rm -rf ${current_data_directory}/ImagesByName
-                    rm -rf ${current_data_directory}/localization
-                    rm -rf ${current_data_directory}/logs
-                    rm -rf ${current_data_directory}/root
+                    rm -rf ${current_data_directory}/*
 
                     # check for mediabrowser directory in path before deleting
                     case "${current_data_directory}" in
