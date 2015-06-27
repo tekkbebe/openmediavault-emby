@@ -31,7 +31,11 @@ case "$1" in
         fi
 
         if [ -d "/var/run/${SERVICE_XPATH_NAME}" ]; then
-            rm -Rf /var/run/${SERVICE_XPATH_NAME}
+            rm -rf /var/run/${SERVICE_XPATH_NAME}
+        fi
+
+        if [ -d "${DATADIR}" ]; then
+            rm -rf ${DATADIR}
         fi
 
         if omv_config_exists "${SERVICE_XPATH}"; then
@@ -39,7 +43,7 @@ case "$1" in
         fi
         
         if getent passwd emby >/dev/null 2>&1; then
-            userdel -r emby
+            userdel emby
         fi
     ;;
 
