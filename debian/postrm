@@ -9,6 +9,7 @@ case "$1" in
     purge)
         SERVICE_XPATH_NAME="emby"
         SERVICE_XPATH="/config/services/${SERVICE_XPATH_NAME}"
+        DATADIR="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
         FFMPEG_LINK="/usr/local/bin/ffmpeg"
 
         if [ -f "/var/run/${SERVICE_XPATH_NAME}/${SERVICE_XPATH_NAME}.pid" ]; then
@@ -25,20 +26,21 @@ case "$1" in
             rm -Rf ${FFMPEG_LINK}
         fi
 
-        rm -rf /opt/${SERVICE_XPATH_NAME}
-        rm -f /etc/${SERVICE_XPATH_NAME}.conf
-        rm -Rf /var/run/${SERVICE_XPATH_NAME}
+        if [ -d "/opt/${SERVICE_XPATH_NAME}" ]; then
+            rm -rf /opt/${SERVICE_XPATH_NAME}
+        fi
+
+        if [ -d "/var/run/${SERVICE_XPATH_NAME}" ]; then
+            rm -Rf /var/run/${SERVICE_XPATH_NAME}
+        fi
 
         if omv_config_exists "${SERVICE_XPATH}"; then
-            DATADIR="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
             omv_config_delete "${SERVICE_XPATH}"
-
-            # check for emby directory in path before deleting
-            case "${DATADIR}" in
-                *emby*) rm -rf "${DATADIR}" ;;
-            esac
         fi
-        userdel -r ${SERVICE_XPATH_NAME} || :
+        
+        if getent passwd emby >/dev/null 2>&1; then
+            userdel -r emby
+        fi
     ;;
 
     remove)
