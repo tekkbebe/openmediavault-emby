@@ -36,7 +36,7 @@ MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
 SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
 
 if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
-    exit 0    
+    update-rc.d ${SERVICE} disable || :
 fi
 
 install()
@@ -128,7 +128,7 @@ case $2 in
 
     update)
         echo "Updating Emby..."
-        invoke-rc.d ${SERVICE} stop
+        update-rc.d ${SERVICE} stop
         install
     ;;
 
