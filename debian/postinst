@@ -71,7 +71,7 @@ esac
 if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
     echo "Waiting for folders to be created.";
     i=0
-    while [ "$i" -le "60" ]
+    while [ "$i" -le "90" ]
         do
             if [ -f /var/lib/${SERVICE_XPATH_NAME}/ffmpeg/*/fonts/fonts.conf ]; then
                 break
