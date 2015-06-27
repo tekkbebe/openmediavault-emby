@@ -29,7 +29,7 @@ class OMVModuleEmby extends OMVModuleServiceAbstract implements
 {
     public function getName()
     {
-        return "emby";
+        return "Emby";
     }
     
     private function getPluginName()
