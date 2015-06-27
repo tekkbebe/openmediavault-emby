@@ -23,19 +23,19 @@ case "$1" in
         fi
 
         if [ -e "${FFMPEG_LINK}" ]; then
-            rm -Rf ${FFMPEG_LINK}
+            rm -Rf "${FFMPEG_LINK}"
         fi
 
         if [ -d "/opt/${SERVICE_XPATH_NAME}" ]; then
-            rm -rf /opt/${SERVICE_XPATH_NAME}
+            rm -rf "/opt/${SERVICE_XPATH_NAME}"
         fi
 
         if [ -d "/var/run/${SERVICE_XPATH_NAME}" ]; then
-            rm -rf /var/run/${SERVICE_XPATH_NAME}
+            rm -rf "/var/run/${SERVICE_XPATH_NAME}"
         fi
 
         if [ -d "${DATADIR}" ]; then
-            rm -rf ${DATADIR}
+            rm -rf "${DATADIR}"
         fi
 
         if omv_config_exists "${SERVICE_XPATH}"; then
