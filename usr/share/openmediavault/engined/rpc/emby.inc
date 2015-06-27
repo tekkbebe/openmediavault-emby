@@ -111,10 +111,10 @@ class OMVRpcServiceEmby extends OMVRpcServiceAbstract
             $deviceDir = $xmlConfig->get($xPath);
             $deviceDir = $deviceDir['dir'];
 
-            $dbFolder = "{$deviceDir}/mediabrowser";
+            $dbFolder = "{$deviceDir}/emby";
             $params['db-folder'] = $dbFolder;
         } else {
-            $params['db-folder'] = "/var/lib/mediabrowser";
+            $params['db-folder'] = "/var/lib/emby";
         }
 
         // Gets the stored folder to see if a data movement is required
