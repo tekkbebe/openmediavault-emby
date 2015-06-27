@@ -24,8 +24,8 @@ case "$1" in
         fi
 
         echo "Removing old pid file if present..."
-        if [ -e /var/run/emby ]; then
-            rm -Rf /var/run/emby
+        if [ -d /var/run/emby ]; then
+            rm -rf /var/run/emby
             echo "...ok"
         fi
 
