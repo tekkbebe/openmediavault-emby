@@ -115,8 +115,8 @@ EOF
     chmod 755 ${INSTALL_DIR}/MediaBrowser.Server.Mono.exe
     ldconfig
 
-    echo "Starting Emby..."
-    invoke-rc.d ${SERVICE} start
+    echo "Calling insserv..."
+    insserv ${SERVICE}
     echo "...ok"
 }
 
