@@ -164,7 +164,7 @@ case $2 in
 
                     # check for mediabrowser directory in path before deleting
                     case "${current_data_directory}" in
-                        *mediabrowser*) rm -rf "${current_data_directory}" ;;
+                        *emby*) rm -rf "${current_data_directory}" ;;
                     esac
                 fi
                 xmlstarlet ed -L -u "${SERVICE_XPATH}/old_db-folder" -v "" -n ${OMV_CONFIG_FILE}
