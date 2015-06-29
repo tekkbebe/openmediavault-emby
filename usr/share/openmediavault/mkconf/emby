@@ -154,18 +154,14 @@ case $2 in
                         chmod 755 ${FFMPEG_LINK}/*/fonts/ARIALUNI.TTF
                     fi
                     
-                    if [ -d "${current_data_directory}/cache" ]; then
-                        cp -rfp ${current_data_directory}/* ${data_directory}/
+                    if [ ! -d "${data_directory}/cache" ]; then
+                        cp -rfp "${current_data_directory}" "${data_directory}"
+                        rm -rf "${current_data_directory}"
+                        usermod -d "${data_directory}" emby
                     fi
                     
-                    chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
+                    chown -R ${RUN_AS}:${RUN_GRP} "${data_directory}"
 
-                    rm -rf ${current_data_directory}/*
-
-                    # check for mediabrowser directory in path before deleting
-                    case "${current_data_directory}" in
-                        *emby*) rm -rf "${current_data_directory}" ;;
-                    esac
                 fi
                 xmlstarlet ed -L -u "${SERVICE_XPATH}/old_db-folder" -v "" -n ${OMV_CONFIG_FILE}
             fi
