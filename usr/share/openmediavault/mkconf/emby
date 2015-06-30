@@ -60,7 +60,6 @@ install()
         if [ ! -d "${data_directory}/ProgramData-Server" ]; then
             cp -rf ${INSTALL_DIR}/ProgramData-Server ${data_directory}
             rm -rf "${INSTALL_DIR}"
-            usermod -d "${data_directory}" "${SERVICE}"
             chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
         fi
     fi
