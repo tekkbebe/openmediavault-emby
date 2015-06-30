@@ -45,6 +45,7 @@ install()
         data_directory="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
         xmlstarlet ed -L -u "${SERVICE_XPATH}/old_db-folder" -v "" -n ${OMV_CONFIG_FILE}
     fi
+    
     if [ "${data_directory}" = "" ]; then
         data_directory="/var/lib/${SERVICE}"
     fi
