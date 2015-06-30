@@ -141,10 +141,6 @@ case $2 in
                     data_directory="$(omv_config_get "${SERVICE_XPATH}/db-folder")"
                     echo "Moving database from <${current_data_directory}> to <${data_directory}>..."
 
-                    if [ ! -d "${data_directory}" ]; then
-                        mkdir -p "${data_directory}"
-                    fi
-
                     if [ ! -e "${FFMPEG_LINK}" ]; then
                         cp -rfp ${current_data_directory}/ffmpeg ${FFMPEG_LINK}
                         rm -rf ${current_data_directory}/ffmpeg
