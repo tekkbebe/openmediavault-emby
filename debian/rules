@@ -4,4 +4,4 @@
 	dh $@
 
 override_dh_installinit:
-	dh_installinit -r --no-start --name=emby
+	dh_installinit --name=emby
