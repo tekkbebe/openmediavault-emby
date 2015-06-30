@@ -5,7 +5,9 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-SERVICE_XPATH_NAME="emby"
+SERVICE="emby"
+SERVICE_HOME="/var/lib/${SERVICE}"
+SERVICE_XPATH_NAME="${SERVICE}"
 SERVICE_XPATH="//services/${SERVICE_XPATH_NAME}"
 
 case "$1" in
@@ -15,7 +17,7 @@ case "$1" in
             adduser  --quiet \
                      --system \
                      --ingroup nogroup \
-                     --no-create-home \
+                     --home-dir "${SERVICE_HOME}" \
                      --disabled-password \
                      emby
             echo "...ok"
