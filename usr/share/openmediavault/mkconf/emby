@@ -52,6 +52,7 @@ install()
 
     if [ ! -d "${data_directory}" ]; then
         mkdir -p "${data_directory}"
+        usermod -d "${data_directory}" "${SERVICE}"
         chown ${RUN_AS}:${RUN_GRP} ${data_directory}
     fi
 
