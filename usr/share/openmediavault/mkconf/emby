@@ -65,7 +65,7 @@ install()
         fi
     fi
 
-    if [ ! -d "${INSTALL_DIR}" ];
+    if [ ! -d "${INSTALL_DIR}" ]; then
         mkdir -p "${INSTALL_DIR}"
     fi
 
