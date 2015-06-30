@@ -59,16 +59,15 @@ install()
         echo "Moving data directory from <${INSTALL_DIR}/ProgramData-Server> to <${data_directory}>..."
         if [ ! -d "${data_directory}/ProgramData-Server" ]; then
             cp -rf ${INSTALL_DIR}/ProgramData-Server ${data_directory}
+            rm -rf "${INSTALL_DIR}"
+            usermod -d "${data_directory}" "${SERVICE}"
             chown -R ${RUN_AS}:${RUN_GRP} ${data_directory}
         fi
     fi
 
-    if [ -d "${INSTALL_DIR}" ]; then
-        rm -rf "${INSTALL_DIR}"
+    if [ ! -d "${INSTALL_DIR}" ];
+        mkdir -p "${INSTALL_DIR}"
     fi
-
-    mkdir -p "${INSTALL_DIR}"
-    chown ${RUN_AS}:${RUN_GRP} ${INSTALL_DIR}
 
     if [ -f "${FILE}" ]; then
         rm -f ${FILE}
@@ -158,7 +157,7 @@ case $2 in
                     if [ ! -d "${data_directory}/cache" ]; then
                         cp -rfp "${current_data_directory}" "${data_directory}"
                         rm -rf "${current_data_directory}"
-                        usermod -d "${data_directory}" emby
+                        usermod -d "${data_directory}" "${SERVICE}"
                     fi
                     
                     chown -R ${RUN_AS}:${RUN_GRP} "${data_directory}"
