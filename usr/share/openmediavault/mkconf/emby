@@ -31,7 +31,6 @@ INSTALL_DIR="/opt/${SERVICE}"
 LIBS_AMD64="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsamd64/embylibs.zip"
 LIBS_I386="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsi386/embylibs.zip"
 LIBS_ARMHF="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsarmhf/embylibs.zip"
-LIBS_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsamd64/embylibs.zip"
 LIBS_FILE="/tmp/embylibs.zip"
 LIBS_DIR="/opt/${SERVICE}/embylibs"
 IMAGEMAGICK_CONF="/opt/${SERVICE}/ImageMagickSharp.dll.config"
@@ -85,6 +84,21 @@ install()
     if [ -f "${LIBS_FILE}" ]; then
         rm -f ${LIBS_FILE}
     fi
+
+    if arch | grep x86_64 >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_AMD64}"
+        echo "cpu 64 bit..."
+    elif arch | grep 86 >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_I386}"
+        echo "cpu 32 bit..."
+    elif arch | grep armv7l >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_ARMHF}"
+        echo "cpu armhf..."
+    else
+        echo "cpu architecture not supported.  exiting..."
+        exit 0
+    fi
+
     echo "Downloading..."
     wget ${LIBS_LINK} -O ${LIBS_FILE}
 
