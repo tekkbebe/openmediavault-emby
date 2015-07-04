@@ -24,6 +24,7 @@ RUN_AS="emby"
 RUN_GRP="nogroup"
 SERVICE="emby"
 SERVICE_XPATH="//services/${SERVICE}"
+BIN="/usr/local/bin"
 FFMPEG_LINK="/usr/local/bin/ffmpeg"
 LINK="https://github.com/MediaBrowser/MediaBrowser.Releases/raw/master/Server/MediaBrowser.Mono.zip"
 FILE="/tmp/MBServer.Mono.zip"
@@ -56,6 +57,10 @@ install()
         mkdir -p "${data_directory}"
         usermod -d "${data_directory}" "${SERVICE}"
         chown ${RUN_AS}:${RUN_GRP} ${data_directory}
+    fi
+
+    if [ ! -d "${BIN}" ]; then
+        mkdir -p "${BIN}"
     fi
 
     if [ -d "${INSTALL_DIR}/ProgramData-Server" ]; then
