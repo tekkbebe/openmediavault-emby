@@ -79,11 +79,12 @@ install()
     if [ -f "${FILE}" ]; then
         rm -f ${FILE}
     fi
+    
     echo "Downloading..."
     wget ${LINK} -O ${FILE}
 
     echo "Extracting..."
-    unzip ${FILE} -d ${INSTALL_DIR}
+    unzip -o ${FILE} -d ${INSTALL_DIR}
     rm -f ${FILE}
 
     if [ -f "${LIBS_FILE}" ]; then
@@ -104,11 +105,15 @@ install()
         exit 0
     fi
 
+    if [ -f "${LIBS_FILE}" ]; then
+        rm -f ${FILE}
+    fi
+
     echo "Downloading..."
     wget ${LIBS_LINK} -O ${LIBS_FILE}
 
     echo "Extracting..."
-    unzip ${LIBS_FILE} -d ${LIBS_DIR}
+    unzip -o ${LIBS_FILE} -d ${LIBS_DIR}
     rm -f ${LIBS_FILE}
 
     echo "Creating imagemagick config..."
