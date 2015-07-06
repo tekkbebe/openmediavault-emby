@@ -1,3 +1,9 @@
+openmediavault-emby (2.1) stable; urgency=low
+
+  * Fix overwrite issue 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 06 Jul 2015 11:33:00 -0400
+
 openmediavault-emby (2.0) stable; urgency=low
 
   * Add libraries for 32 bit and armhf
