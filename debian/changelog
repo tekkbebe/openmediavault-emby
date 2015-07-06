@@ -1,4 +1,4 @@
-openmediavault-emby (2.0) UNRELEASED; urgency=low
+openmediavault-emby (2.0) stable; urgency=low
 
   * Add libraries for 32 bit and armhf
 
