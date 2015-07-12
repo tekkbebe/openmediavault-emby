@@ -96,7 +96,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
             disabled : true,
             scope    : me,
             handler  : function() {
-				var link = 'http://' + location.hostname + ':8096/mediabrowser';
+				var link = 'http://' + location.hostname + ':8096/emby';
 				window.open(link, '_blank');
             }
         });
