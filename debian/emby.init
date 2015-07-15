@@ -56,7 +56,7 @@ start() {
          chmod 2775 $PIDDIR
        fi
 
-	DAEMON_OPTS=" -programdata ${DBFOLDER}"
+	DAEMON_OPTS=" -programdata ${DBFOLDER} -restartpath /opt/${SERVICE}.sh"
 
 #	 start-stop-daemon --start --user root --chuid root --background -m --oknodo --pidfile /var/run/mediabrowser/mediabrowser.pid --chdir /opt/mediabrowser --exec /opt/mono/bin/mono -- MediaBrowser.Server.Mono.exe -programdata /var/lib/mediabrowser
 	start-stop-daemon -c $RUN_AS:$RUN_GRP --start --background -m --oknodo -p $PID_FILE --chdir $APP_PATH --exec $DAEMON $DAEMON_OPTS
