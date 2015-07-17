@@ -51,6 +51,11 @@ case "$1" in
         dpkg-trigger update-locale
         echo "...ok"
 
+        # fix chown of emby.sh script
+        if [ -e /usr/local/bin/emby.sh ]; then
+            chown emby:nogroup /usr/local/bin/emby.sh
+        fi
+        
         echo "Launching Emby install procedure..."
         omv-mkconf emby install
         echo "...ok"
