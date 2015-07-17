@@ -54,6 +54,7 @@ case "$1" in
         # fix chown of emby.sh script
         if [ -f /usr/sbin/emby.sh ]; then
             chown emby:nogroup /usr/sbin/emby.sh
+            chmod 0700 /usr/sbin/emby.sh
         fi
         
         echo "Launching Emby install procedure..."
