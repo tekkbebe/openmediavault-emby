@@ -52,8 +52,8 @@ case "$1" in
         echo "...ok"
 
         # fix chown of emby.sh script
-        if [ -f /usr/local/bin/emby.sh ]; then
-            chown emby:nogroup /usr/local/bin/emby.sh
+        if [ -f /usr/sbin/emby.sh ]; then
+            chown emby:nogroup /usr/sbin/emby.sh
         fi
         
         echo "Launching Emby install procedure..."
