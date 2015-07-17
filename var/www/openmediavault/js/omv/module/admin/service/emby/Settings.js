@@ -188,31 +188,32 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
                           'If you are using OMVs firewall create rules to open the following ports on your LAN.' +
                           '<ul>' +
                           '<li>' +
-                          '<b>TCP 8096</b> HTTP access to the Emby UI.' +
+                          '<b>TCP 8096</b> HTTP access to the Emby UI. Required for Windows Media Player.' +
                           '</li>' +
                           '<li>' +
                           '<b>TCP 8920</b> HTTPS access to the Emby UI.' +
                           '</li>' +
                           '<li>' +
-                          '<b>TCP 8945</b> pending more info.....' +
+                          '<b>TCP 8945</b> Port used for data transfer.' +
                           '</li>' +
                           '</ul>' +
                           '<h3>Router Settings</h3>' +
+                          'Ports to be forwarded from your router to your OMV for remote client connections or secure browser sessions, via HTTPS, to manage the server.' +
                           '<ul>' +
                           '<li>' +
-                          'pending more info.....' +
+                          '<b>TCP 8096</b> To connect with Plex Connect or direct client connections.' +
                           '</li>' +
                           '<li>' +
-                          'pending more info.....' +
+                          '<b>TCP 8920</b> Secure connection to Manage Server.' +
                           '</li>' +
                           '<li>' +
-                          'pending more info.....' +
+                          '<b>TCP 8945</b> For data transfer.' +
                           '</li>' +
                           '</ul>' +
                           '<h3>Emby Connect and Client Software</h3>' +
                           '<ul>' +
                           '<li>' +
-                          'Create an <b>Emby Connect</b> account <a href="http://app.emby.media/connectlogin.html" target="_blank">here</a>. Emby Connect can be used to view your server remotely.  Make sure you sign your clients/servers into the account. The account is also used for <b>support</b> on the <a href="http://emby.media/community/" target="_blank">forums</a>.' +
+                          'Create an <b>Emby Connect</b> account <a href="http://app.emby.media/connectlogin.html" target="_blank">here</a>. Emby Connect can be used to view your server remotely.  Make sure you sign your clients/servers into the account. The account is also used to sign into the <a href="http://emby.media/community/" target="_blank">forums</a> for <b>support</b>.' +
                           '</li>' +
                           '<li>' +
                           'Emby has <b>client software</b> availabe for <b>Android</b>, <b>Windows RT/PC</b>, <b>Amazon Fire TV</b> and <b>iOS</b> is coming soon.' +
