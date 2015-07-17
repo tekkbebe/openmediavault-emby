@@ -180,9 +180,9 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
             layout  : "fit",
             items : [{
                 border  : false,
-                html    : 'After enabling the server you have to go through a first time setup wizard.  Skip the section where it offers to setup media shares.  Once setup is complete this can easily be done via' +
+                html    : 'Notes: After enabling the server you have to go through a first time setup wizard.  Skip the section where it offers to setup media shares.  Once setup is complete this can easily be done via' +
                           ' the <b>Home / Manage Server / Library</b> section.  To enable the iframe in the <b>Web Client</b> panel you need to edit this file <b>/media/UUID/emby/config/system.xml</b>.  Scroll down to almost' +
-                          ' the of end of the file and edit the <b>DenyIFrameEmbedding</b> setting so it says <b>false</b>.  Then save and exit.' + 
+                          ' the of end of the file and edit the <b>DenyIFrameEmbedding</b> setting so it says <b>false</b>.  Then save and exit.  <b>** Warning **</b> <b>Do not</b> use the <b>Shutdown button</b> in the Manage Server section.' + 
                           '</p>' +
                           '<h3>OMV Firewall</h3>' +
                           'If you are using OMVs firewall create rules to open the following ports on your LAN.' +
