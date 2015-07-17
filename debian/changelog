@@ -1,3 +1,10 @@
+openmediavault-emby (2.3) stable; urgency=low
+
+  * Fix chown emby.sh in postinst
+  * Add /usr/local/bin to install file 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 17 Jul 2015 11:32:54 -0400
+
 openmediavault-emby (2.2) stable; urgency=low
 
   * Add html information
@@ -22,4 +29,3 @@ openmediavault-emby (1.0) stable; urgency=low
   * Initial release
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 23 Jun 2015 15:01:18 -0400
- 
