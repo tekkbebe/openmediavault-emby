@@ -17,7 +17,8 @@ Depends: openmediavault (>= 1.0.21),
          mediainfo (>= 0.7.52),
          libtiff4,
          libxext6,
-         unzip
+         unzip,
+         sudo
 Description: Emby plugin for OpenMediaVault.
  Emby is a home media server built on top of
  other popular open source technologies such as Service Stack,
