@@ -90,7 +90,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
         },{
             id       : me.getId() + "-webclient",
             xtype    : "button",
-			text    : _("Emby Web Client"),
+            text     : _("Emby Web Client"),
             icon     : "images/emby.png",
             iconCls  : Ext.baseCSSPrefix + "btn-icon-16x16",
             disabled : true,
@@ -180,10 +180,21 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
             layout  : "fit",
             items : [{
                 border  : false,
-                html    : 'Notes: After enabling the server you have to go through a first time setup wizard.  Skip the section where it offers to setup media shares.  Once setup is complete this can easily be done via' +
-                          ' the <b>Home / Manage Server / Library</b> section.  To enable the iframe in the <b>Web Client</b> panel you need to edit this file <b>/media/UUID/emby/config/system.xml</b>.  Scroll down to almost' +
-                          ' the of end of the file and edit the <b>DenyIFrameEmbedding</b> setting so it says <b>false</b>.  Then save and exit.  <b>** Warning **</b> <b>Do not</b> use the <b>Shutdown button</b> in the Manage Server section.  You can use any of the Restart buttons in the Emby UI.' + 
-                          '</p>' +
+                html    : '<b>Notes</b>:' +
+                          '<ol>' +
+                          '<li>' +
+                          'After enabling the server you have to go through a first time setup wizard.  Skip the section where it offers to setup media shares.  Once setup is complete this can easily be done via the <b>Home / Manage Server / Library</b> section.' +
+                          '</li>' +
+                          '<li>' +
+                          'To enable the iframe in the <b>Web Client</b> panel you need to edit this file <b>/media/UUID/emby/config/system.xml</b>.  Scroll down to almost the of end of the file and edit the <b>DenyIFrameEmbedding</b> setting so it says <b>false</b>.  Then save and exit.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>** Warning **</b> <b>Do not</b> use the <b>Shutdown button</b> in the Manage Server section.  You can use any of the Restart buttons in the Emby UI.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>** Warning **</b> Allowing Emby to write metadata to your media folders may not be desired.  To enable this feature run the following command: <b>usermod -a -G users emby</b>' +
+                          '</li>' +
+                          '</ol>' +
                           '<h3>OMV Firewall</h3>' +
                           'If you are using OMVs firewall create rules to open the following ports on your LAN.' +
                           '<ul>' +
