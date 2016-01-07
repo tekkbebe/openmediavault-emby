@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
+# Copyright (C) 2014-2016 OpenMediaVault Plugin Developers
 #
 # This file is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,8 +26,8 @@ SERVICE="emby"
 SERVICE_XPATH="//services/${SERVICE}"
 BIN="/usr/local/bin"
 FFMPEG_LINK="/usr/local/bin/ffmpeg"
-LINK="https://github.com/MediaBrowser/Emby.Releases/raw/master/Server/Emby.Mono.zip"
-FILE="/tmp/MBServer.Mono.zip"
+LINK="https://github.com//MediaBrowser/Emby/releases/latest"
+FILE="/tmp/Emby.Mono.zip"
 INSTALL_DIR="/opt/${SERVICE}"
 LIBS_AMD64="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsamd64/embylibs.zip"
 LIBS_I386="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsi386/embylibs.zip"
@@ -81,7 +81,7 @@ install()
     fi
     
     echo "Downloading..."
-    wget ${LINK} -O ${FILE}
+    curl -s -L ${LINK} | grep 'Emby.Mono.zip' | head -n 1 | sed -r 's/.{21}//' | sed -r 's/.{17}$//' | wget --base=http://github.com/ -i - -O ${FILE}
 
     echo "Extracting..."
     unzip -o ${FILE} -d ${INSTALL_DIR}
@@ -200,3 +200,4 @@ if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
 fi
 
 exit 0
+
