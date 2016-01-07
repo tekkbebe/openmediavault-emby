@@ -1,3 +1,10 @@
+openmediavault-emby (2.6) stable; urgency=low
+
+  * Update mkconf link for Emby.Momo.zip
+  * Update dependencies: remove libmediainfo, add curl
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 07 Jan 2016 06:54:07 -0500
+
 openmediavault-emby (2.5) stable; urgency=low
 
   * Update emby package download link
