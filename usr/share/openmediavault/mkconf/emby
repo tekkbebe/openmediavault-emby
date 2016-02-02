@@ -20,8 +20,8 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-RUN_AS="emby"
-RUN_GRP="nogroup"
+RUN_AS=${OMV_EMBY_RUN_AS:-"emby"}
+RUN_GRP=${OMV_EMBY_RUN_GRP:-"nogroup"}
 SERVICE="emby"
 SERVICE_XPATH="//services/${SERVICE}"
 BIN="/usr/local/bin"
