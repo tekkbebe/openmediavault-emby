@@ -1,0 +1,1 @@
+emby ALL=NOPASSWD: /etc/init.d/emby restart

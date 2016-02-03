@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# Copyright (C) 2014-2015 OpenMediaVault Plugin Developers
+# Copyright (C) 2014-2016 OpenMediaVault Plugin Developers
 #
 # This file is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,19 +20,21 @@ set -e
 . /etc/default/openmediavault
 . /usr/share/openmediavault/scripts/helper-functions
 
-RUN_AS="emby"
-RUN_GRP="nogroup"
+RUN_AS=${OMV_EMBY_RUN_AS:-"emby"}
+RUN_GRP=${OMV_EMBY_RUN_GRP:-"nogroup"}
 SERVICE="emby"
 SERVICE_XPATH="//services/${SERVICE}"
+BIN="/usr/local/bin"
 FFMPEG_LINK="/usr/local/bin/ffmpeg"
-LINK="https://github.com/MediaBrowser/MediaBrowser.Releases/raw/master/Server/MediaBrowser.Mono.zip"
-FILE="/tmp/MBServer.Mono.zip"
+LINK="https://github.com//MediaBrowser/Emby/releases/latest"
+FILE="/tmp/Emby.Mono.zip"
 INSTALL_DIR="/opt/${SERVICE}"
-LIBS_LINK="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsamd64/embylibs.zip"
+LIBS_AMD64="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsamd64/embylibs.zip"
+LIBS_I386="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsi386/embylibs.zip"
+LIBS_ARMHF="https://github.com/tekkbebe/OMV.Resources/raw/master/libs/embylibsarmhf/embylibs.zip"
 LIBS_FILE="/tmp/embylibs.zip"
 LIBS_DIR="/opt/${SERVICE}/embylibs"
 IMAGEMAGICK_CONF="/opt/${SERVICE}/ImageMagickSharp.dll.config"
-MEDIAINFO_CONF="/opt/${SERVICE}/MediaBrowser.MediaInfo.dll.config"
 SQLITE3_CONF="/opt/${SERVICE}/System.Data.SQLite.dll.config"
 
 if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "1" ]; then
@@ -56,6 +58,10 @@ install()
         chown ${RUN_AS}:${RUN_GRP} ${data_directory}
     fi
 
+    if [ ! -d "${BIN}" ]; then
+        mkdir -p "${BIN}"
+    fi
+
     if [ -d "${INSTALL_DIR}/ProgramData-Server" ]; then
         echo "Moving data directory from <${INSTALL_DIR}/ProgramData-Server> to <${data_directory}>..."
         if [ ! -d "${data_directory}/ProgramData-Server" ]; then
@@ -72,21 +78,41 @@ install()
     if [ -f "${FILE}" ]; then
         rm -f ${FILE}
     fi
+    
     echo "Downloading..."
-    wget ${LINK} -O ${FILE}
+    curl -s -L ${LINK} | grep 'Emby.Mono.zip' | head -n 1 | sed -r 's/.{21}//' | sed -r 's/.{17}$//' | wget --base=http://github.com/ -i - -O ${FILE}
 
     echo "Extracting..."
-    unzip ${FILE} -d ${INSTALL_DIR}
+    unzip -o ${FILE} -d ${INSTALL_DIR}
     rm -f ${FILE}
 
     if [ -f "${LIBS_FILE}" ]; then
         rm -f ${LIBS_FILE}
     fi
+
+    if arch | grep x86_64 >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_AMD64}"
+        echo "cpu 64 bit..."
+    elif arch | grep 86 >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_I386}"
+        echo "cpu 32 bit..."
+    elif arch | grep armv7l >/dev/null 2>&1; then
+        LIBS_LINK="${LIBS_ARMHF}"
+        echo "cpu armhf..."
+    else
+        echo "cpu architecture not supported.  exiting..."
+        exit 0
+    fi
+
+    if [ -f "${LIBS_FILE}" ]; then
+        rm -f ${FILE}
+    fi
+
     echo "Downloading..."
     wget ${LIBS_LINK} -O ${LIBS_FILE}
 
     echo "Extracting..."
-    unzip ${LIBS_FILE} -d ${LIBS_DIR}
+    unzip -o ${LIBS_FILE} -d ${LIBS_DIR}
     rm -f ${LIBS_FILE}
 
     echo "Creating imagemagick config..."
@@ -94,13 +120,6 @@ install()
 <configuration>
   <dllmap dll="CORE_RL_Wand_.dll" target="libMagickWand-6.Q8.so.2" os="linux"/>
 </configuration>  
-EOF
-
-    echo "Creating mediainfo config..."
-    cat <<EOF > "${MEDIAINFO_CONF}"
-<configuration>
-  <dllmap dll="MediaInfo" target="libmediainfo.so" os="linux"/>
-</configuration>
 EOF
 
     echo "Creating sqlite3 config..."
@@ -173,3 +192,4 @@ if [ "$(omv_config_get "${SERVICE_XPATH}/enable")" != "0" ]; then
 fi
 
 exit 0
+

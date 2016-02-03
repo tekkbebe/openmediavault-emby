@@ -90,13 +90,13 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
         },{
             id       : me.getId() + "-webclient",
             xtype    : "button",
-			text    : _("Emby Web Client"),
+            text     : _("Emby Web Client"),
             icon     : "images/emby.png",
             iconCls  : Ext.baseCSSPrefix + "btn-icon-16x16",
             disabled : true,
             scope    : me,
             handler  : function() {
-				var link = 'http://' + location.hostname + ':8096/mediabrowser';
+				var link = 'http://' + location.hostname + ':8096/emby';
 				window.open(link, '_blank');
             }
         });
@@ -121,7 +121,7 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
                 fieldLabel    : _("Database Volume"),
                 emptyText     : _("Select a volume ..."),
                 allowBlank    : true,
-                allowNone     : false,
+                allowNone     : true,
                 editable      : false,
                 triggerAction : "all",
                 displayField  : "description",
@@ -173,6 +173,63 @@ Ext.define("OMV.module.admin.service.emby.Settings", {
                 scope      : this,
                 margin     : "0 0 5 0",
                 handler    : Ext.Function.bind(this.onUpdate, this, [ this ])
+            }]
+        },{
+            xtype   : "fieldset",
+            title   : _("Information"),
+            layout  : "fit",
+            items : [{
+                border  : false,
+                html    : '<b>Notes</b>:' +
+                          '<ol>' +
+                          '<li>' +
+                          'After enabling the server you have to go through a first time setup wizard.  Skip the section where it offers to setup media shares.  Once setup is complete this can easily be done via the <b>Home / Manage Server / Library</b> section.' +
+                          '</li>' +
+                          '<li>' +
+                          'To enable the iframe in the <b>Web Client</b> panel you need to edit this file <b>/media/UUID/emby/config/system.xml</b>.  Scroll down to almost the of end of the file and edit the <b>DenyIFrameEmbedding</b> setting so it says <b>false</b>.  Then save and exit.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>** Warning **</b> <b>Do not</b> use the <b>Shutdown button</b> in the Manage Server section.  You can use any of the Restart buttons in the Emby UI.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>** Warning **</b> Allowing Emby to write metadata to your media folders may not be desired.  To enable this feature run the following command: <b>usermod -a -G users emby</b>' +
+                          '</li>' +
+                          '</ol>' +
+                          '<h3>OMV Firewall</h3>' +
+                          'If you are using OMVs firewall create rules to open the following ports on your LAN.' +
+                          '<ul>' +
+                          '<li>' +
+                          '<b>TCP 8096</b> HTTP access to the Emby UI. Required for Windows Media Player.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>TCP 8920</b> HTTPS access to the Emby UI.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>TCP 8945</b> Port used for data transfer.' +
+                          '</li>' +
+                          '</ul>' +
+                          '<h3>Router Settings</h3>' +
+                          'Ports to be forwarded from your router to your OMV for remote client connections or secure browser sessions, via HTTPS, to manage the server.' +
+                          '<ul>' +
+                          '<li>' +
+                          '<b>TCP 8096</b> To connect with Plex Connect or direct client connections.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>TCP 8920</b> Secure connection to Manage Server.' +
+                          '</li>' +
+                          '<li>' +
+                          '<b>TCP 8945</b> For data transfer.' +
+                          '</li>' +
+                          '</ul>' +
+                          '<h3>Emby Connect and Client Software</h3>' +
+                          '<ul>' +
+                          '<li>' +
+                          'Create an <b>Emby Connect</b> account <a href="http://app.emby.media/connectlogin.html" target="_blank">here</a>. Emby Connect can be used to view your server remotely.  Make sure you sign your clients/servers into the account. The account is also used to sign into the <a href="http://emby.media/community/" target="_blank">forums</a> for <b>support</b>.' +
+                          '</li>' +
+                          '<li>' +
+                          'Emby has <b>client software</b> availabe for <b>Android</b>, <b>Windows RT/PC</b>, <b>Amazon Fire TV</b> and <b>iOS</b> is coming soon.' +
+                          '</li>' +
+                          '</ul>'
             }]
         }];
     },

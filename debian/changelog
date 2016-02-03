@@ -1,6 +1,50 @@
+openmediavault-emby (2.6) stable; urgency=low
+
+  * Update mkconf link for Emby.Mono.zip
+  * Update dependencies: remove libmediainfo, add curl
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 07 Jan 2016 06:54:07 -0500
+
+openmediavault-emby (2.5) stable; urgency=low
+
+  * Update emby package download link
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 29 Dec 2015 12:05:24 -0600
+
+openmediavault-emby (2.4) stable; urgency=low
+
+  * Update html notes 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 20 Oct 2015 16:51:49 -0400
+
+openmediavault-emby (2.3) stable; urgency=low
+
+  * Fix chown emby.sh in postinst
+  * Add /usr/local/bin to install file 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Fri, 17 Jul 2015 11:32:54 -0400
+
+openmediavault-emby (2.2) stable; urgency=low
+
+  * Add html information
+  * Add fix for notification restart button in Emby UI 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Thu, 16 Jul 2015 22:04:27 -0400
+
+openmediavault-emby (2.1) stable; urgency=low
+
+  * Fix overwrite issue 
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Mon, 06 Jul 2015 11:33:00 -0400
+
+openmediavault-emby (2.0) stable; urgency=low
+
+  * Add libraries for 32 bit and armhf
+
+ -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Sun, 05 Jul 2015 13:58:46 -0400
+
 openmediavault-emby (1.0) stable; urgency=low
 
   * Initial release
 
  -- OpenMediaVault Plugin Developers <plugins@omv-extras.org>  Tue, 23 Jun 2015 15:01:18 -0400
-
